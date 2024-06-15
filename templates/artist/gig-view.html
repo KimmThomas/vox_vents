@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Gig View - Vox Events Hub{% endblock %}
+
+{% block nav %}
+<nav id="navmenu" class="navmenu">
+    <ul>
+        <li><a href="{% url 'portfolio' %}">Profile</a></li>
+        <li><a href="{% url 'gig_view' %}">Bookings</a></li>
+        <li><a href="#">Events</a></li>
+        <li><a href="#">Messages</a></li>
+        <li><a href="#">Financials</a></li>
+        <li><a href="{% url 'settings_view' %}">Settings</a></li>
+        <li><a href="{% url 'logout' %}"><strong>Logout | {{ user.username }}</strong></a></li>
+    </ul>
+    <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+</nav>
+{% endblock %}
+
+{% block main %}
+<main class="main">
+    <div class="container py-4">
+        <!-- Gig Requests Section -->
+        <div class="row mb-4">
+            <div class="col-lg-4">
+                <div class="card" style="background-color: #f8f9fa; color: #343a40;">
+                    <div class="card-header" style="background-color: #e9ecef; color: #343a40;">
+                        <h3 class="card-title">Gig Requests</h3>
+                    </div>
+                    <ul class="list-group list-group-flush gig-requests-list">
+                        {% for request in gig_requests %}
+                        <li class="list-group-item gig-request-item" data-gig-id="{{ request.id }}" style="border: 1px solid #dee2e6; margin-bottom: 10px; border-radius: 5px;">
+                            <h5 class="mb-1">{{ request.event_name }}</h5>
+                            <p class="mb-1"><strong>Date:</strong> {{ request.event_date }}</p>
+                            <p class="mb-1"><strong>Time:</strong> {{ request.event_time }}</p>
+                            <p class="mb-1"><strong>Location:</strong> {{ request.event_location }}</p>
+                            <p class="mb-1"><strong>Description:</strong> {{ request.event_description }}</p>
+                            
+                            <!-- Client details -->
+                            <p class="mb-1"><strong>Client:</strong> {{ request.user.username }}</p>
+                            <p class="mb-1"><strong>Email:</strong> {{ request.user.email }}</p>
+                            
+                            <!-- Actions -->
+                            <div class="mt-3">
+                                <a href="#" class="btn btn-success btn-sm accept-gig-link mr-2" data-gig-id="{{ request.id }}">Accept</a>
+                                <a href="#" class="btn btn-danger btn-sm reject-gig-link" data-gig-id="{{ request.id }}">Reject</a>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Accepted Gigs Section -->
+            <div class="col-lg-4">
+                <div class="card" style="background-color: #d4edda; color: #155724;">
+                    <div class="card-header" style="background-color: #c3e6cb; color: #155724;">
+                        <h3 class="card-title">Accepted Gigs</h3>
+                    </div>
+                    <ul class="list-group list-group-flush accepted-gigs-list">
+                        {% for gig in accepted_gigs %}
+                        <li class="list-group-item accepted-gig-item" style="border: 1px solid #c3e6cb; margin-bottom: 10px; border-radius: 5px;">
+                            <h5 class="mb-1">{{ gig.event_name }}</h5>
+                            <p class="mb-1"><strong>Date:</strong> {{ gig.event_date }}</p>
+                            <p class="mb-1"><strong>Time:</strong> {{ gig.event_time }}</p>
+                            <p class="mb-1"><strong>Location:</strong> {{ gig.event_location }}</p>
+                            <p class="mb-1"><strong>Description:</strong> {{ gig.event_description }}</p>
+                            <p class="mb-1"><strong>Client:</strong> {{ gig.client_username }}</p>
+                            <p class="mb-1"><strong>Email:</strong> {{ gig.client_email }}</p>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Canceled Gigs Section -->
+            <div class="col-lg-4">
+                <div class="card" style="background-color: #f8d7da; color: #721c24;">
+                    <div class="card-header" style="background-color: #f5c6cb; color: #721c24;">
+                        <h3 class="card-title">Canceled Gigs</h3>
+                    </div>
+                    <ul class="list-group list-group-flush canceled-gigs-list">
+                        {% for gig in canceled_gigs %}
+                        <li class="list-group-item canceled-gig-item" style="border: 1px solid #f5c6cb; margin-bottom: 10px; border-radius: 5px;">
+                            <h5 class="mb-1">{{ gig.event_name }}</h5>
+                            <p class="mb-1"><strong>Date:</strong> {{ gig.event_date }}</p>
+                            <p class="mb-1"><strong>Time:</strong> {{ gig.event_time }}</p>
+                            <p class="mb-1"><strong>Location:</strong> {{ gig.event_location }}</p>
+                            <p class="mb-1"><strong>Description:</strong> {{ gig.event_description }}</p>
+                            <p class="mb-1"><strong>Client:</strong> {{ gig.client_username }}</p>
+                            <p class="mb-1"><strong>Email:</strong> {{ gig.client_email }}</p>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Custom CSS for Hover Effect -->
+<style>
+    .list-group-item {
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .list-group-item:hover {
+        transform: scale(1.02);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+</style>
+
+<!-- JavaScript Section -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Function to handle accepting a gig
+        $('.accept-gig-link').on('click', function(e) {
+            e.preventDefault();
+            var gigItem = $(this).closest('.gig-request-item');
+            var gigId = gigItem.data('gig-id');
+            
+            // Perform AJAX request to accept the gig
+            $.ajax({
+                type: 'POST',
+                url: '{% url "accept_gig_request" 0 %}'.replace('0', gigId),
+                data: {
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+                success: function(response) {
+                    gigItem.fadeOut(300, function() {
+                        $(this).remove();  // Remove from gig requests
+                        // Add to accepted gigs section dynamically
+                        $('.accepted-gigs-list').append(response.accepted_gig_html);
+                    });
+                },
+                error: function(error) {
+                    console.log('Error accepting gig:', error);
+                }
+            });
+        });
+    
+        // Function to handle rejecting a gig
+        $('.reject-gig-link').on('click', function(e) {
+            e.preventDefault();
+            var gigItem = $(this).closest('.gig-request-item');
+            var gigId = gigItem.data('gig-id');
+            
+            // Perform AJAX request to reject the gig
+            $.ajax({
+                type: 'POST',
+                url: '{% url "reject_gig_request" 0 %}'.replace('0', gigId),
+                data: {
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+                success: function(response) {
+                    gigItem.fadeOut(300, function() {
+                        $(this).remove();  // Remove from gig requests
+                        // Add to canceled gigs section dynamically
+                        $('.canceled-gigs-list').append(response.canceled_gig_html);
+                    });
+                },
+                error: function(error) {
+                    console.log('Error rejecting gig:', error);
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

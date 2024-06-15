@@ -1,0 +1,43 @@
+<!-- add_portfolio_picture.html -->
+
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Add Portfolio Picture - {{ username }} - Vox Events Hub
+{% endblock %}
+
+{% block main %}
+
+<main class="main">
+
+    <!-- Page Title -->
+    <div class="page-title" data-aos="fade">
+        <div class="container">
+            <nav class="breadcrumbs">
+                <ol>
+                    <li><a href="{% url 'dashboard' %}">Home</a></li>
+                    <li><a href="{% url 'artist_profile' username=username %}">{{ username }}</a></li>
+                </ol>
+            </nav>
+            <h1>Add Portfolio Picture</h1>
+        </div>
+    </div><!-- End Page Title -->
+
+    <!-- Add Portfolio Picture Form -->
+    <section class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 offset-md-3">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" class="btn btn-primary">Upload Picture</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section><!-- End Add Portfolio Picture Form -->
+
+</main>
+{% endblock %}

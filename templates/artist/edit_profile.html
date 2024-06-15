@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}Edit Profile - Vox Events Hub{% endblock %}
+
+{% block nav %}
+
+<nav id="navmenu" class="navmenu">
+    <ul>
+        <li><a href="{% url 'portfolio' %}">Profile</a></li>
+        <li><a href="{% url 'gig_view' %}">Bookings</a></li>
+        <li><a href="#">Events</a></li>
+        <li><a href="#">Messages</a></li>
+        <li><a href="#">Financials</a></li>
+        <li><a href="{% url 'settings_view' %}">Settings</a></li>
+        <li><a href="{% url 'logout' %}"><strong>Logout | {{ user.username }}</strong></a></li>
+    </ul>
+    <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+</nav>
+
+{% endblock %}
+
+{% block main %}
+  <main class="main">
+
+    <!-- Page Title -->
+    <div class="page-title" data-aos="fade">
+      <div class="container">
+        <h1>Edit Profile</h1>
+      </div>
+    </div><!-- End Page Title -->
+
+    <!-- Edit Profile Form -->
+    <section id="edit-profile" class="edit-profile section">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-8">
+            <div class="edit-profile-form">
+              <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="mb-3">
+                  <label for="class_name" class="form-label">Class Name</label>
+                  <input type="text" class="form-control" id="class_name" name="class_name" value="{{ artist_profile.class_name }}">
+                </div>
+                <div class="mb-3">
+                  <label for="address" class="form-label">Address</label>
+                  <input type="text" class="form-control" id="address" name="address" value="{{ artist_profile.address }}">
+                </div>
+                <div class="mb-3">
+                  <label for="profile_picture" class="form-label">Profile Picture</label>
+                  <input type="file" class="form-control" id="profile_picture" name="profile_picture">
+                </div>
+
+                <!-- Form fields for Review -->
+                <div class="mb-3">
+                  <label for="review_text" class="form-label">Review Text</label>
+                  <textarea class="form-control" id="review_text" name="review_text">{{ review.text }}</textarea>
+                </div>
+                <div class="mb-3">
+                  <label for="review_stars" class="form-label">Review Stars</label>
+                  <input type="number" class="form-control" id="review_stars" name="review_stars" value="{{ review.stars }}">
+                </div>
+
+                <!-- Form fields for Song -->
+                <div class="mb-3">
+                  <label for="song_title" class="form-label">Song Title</label>
+                  <input type="text" class="form-control" id="song_title" name="song_title" value="{{ song.title }}">
+                </div>
+                <!-- Add form fields for other attributes in Song model -->
+                
+                <!-- Form fields for Pricing -->
+                <div class="mb-3">
+                  <label for="standard_price" class="form-label">Standard Price</label>
+                  <input type="number" class="form-control" id="standard_price" name="standard_price" value="{{ pricing.standard_price }}">
+                </div>
+
+                <!-- Form fields for PortfolioPicture -->
+                <div class="mb-3">
+                  <label for="portfolio_image" class="form-label">Portfolio Picture</label>
+                  <input type="file" class="form-control" id="portfolio_image" name="portfolio_image">
+                </div>
+                
+                <!-- Form fields for PortfolioVideo -->
+                <div class="mb-3">
+                  <label for="portfolio_video" class="form-label">Portfolio Video</label>
+                  <input type="file" class="form-control" id="portfolio_video" name="portfolio_video">
+                </div>
+                <button type="submit" class="btn btn-primary">Update Profile</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section><!-- End Edit Profile Form -->
+
+  </main>
+{% endblock %}

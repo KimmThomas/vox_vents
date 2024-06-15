@@ -1,0 +1,18 @@
+// settings.js
+document.addEventListener('DOMContentLoaded', function() {
+    // Example: Add event listeners or perform initial setup
+    const profileForm = document.getElementById('profile-form');
+    const passwordForm = document.getElementById('password-form');
+
+    profileForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+        // Implement AJAX request or form submission logic
+        console.log('Profile form submitted');
+    });
+
+    passwordForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+        // Implement AJAX request or form submission logic
+        console.log('Password form submitted');
+    });
+});

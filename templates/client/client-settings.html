@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Client Settings - Vox Events Hub{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/settings.css' %}">
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/settings.js' %}"></script>
+{% endblock %}
+
+{% block nav %}
+<nav id="navmenu" class="navmenu">
+    <ul>
+        <li><a href="{% url 'profile_view' %}">Profile</a></li>
+        <li><a href="{% url 'bookings_view' %}">My Bookings</a></li>
+        <li><a href="{% url 'artist_profiles' %}">Book Artist</a></li>
+        <li><a href="{% url 'payments_view' %}">Payments</a></li> <!-- New tab: Payments -->
+        <li><a href="{% url 'reviews_view' %}">Reviews</a></li> <!-- New tab: Reviews -->
+        <li><a href="{% url 'setting_clientsview' %}">Settings</a></li> <!-- New tab: Settings -->
+        <li><a href="{% url 'logout' %}"><strong>Logout | {{ user.username }}</strong></a></li>
+    </ul>
+    <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+</nav>
+{% endblock %}
+
+<style>
+    .settings {
+        padding: 80px 0;
+    }
+    
+    .settings-group {
+        margin-bottom: 40px;
+    }
+    
+    .settings-group h3 {
+        margin-bottom: 20px;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .settings {
+            padding: 40px 0;
+        }
+    }
+</style>
+
+{% block main %}
+<main class="main">
+
+    <!-- Settings Section -->
+    <section id="settings" class="section settings">
+
+        <div class="container">
+
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="card shadow p-4">
+                        <h2 class="mb-4">Client Settings</h2>
+
+                        <!-- Profile Settings -->
+                        <div id="profile-settings" class="settings-group mb-4">
+                            <h3>Profile Settings</h3>
+                            <form id="profile-form">
+                                <!-- Form fields for profile settings -->
+                                <div class="mb-3">
+                                    <label for="full_name" class="form-label">Full Name</label>
+                                    <input type="text" id="full_name" name="full_name" class="form-control" value="{{ user.get_full_name }}" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email Address</label>
+                                    <input type="email" id="email" name="email" class="form-control" value="{{ user.email }}" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Update Profile</button>
+                            </form>
+                        </div>
+
+                        <!-- Password Settings -->
+                        <div id="password-settings" class="settings-group mb-4">
+                            <h3>Password Settings</h3>
+                            <form id="password-form">
+                                <!-- Form fields for password settings -->
+                                <div class="mb-3">
+                                    <label for="current_password" class="form-label">Current Password</label>
+                                    <input type="password" id="current_password" name="current_password" class="form-control" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="new_password1" class="form-label">New Password</label>
+                                    <input type="password" id="new_password1" name="new_password1" class="form-control" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="new_password2" class="form-label">Confirm New Password</label>
+                                    <input type="password" id="new_password2" name="new_password2" class="form-control" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Change Password</button>
+                            </form>
+                        </div>
+
+                        <!-- Email Settings (Example) -->
+                        <div id="email-settings" class="settings-group">
+                            <h3>Email Settings</h3>
+                            <div class="form-check mb-3">
+                                <input type="checkbox" class="form-check-input" id="email_notifications" checked>
+                                <label class="form-check-label" for="email_notifications">Receive Email Notifications</label>
+                            </div>
+                            <button type="button" class="btn btn-primary">Save Settings</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </section><!-- /Settings Section -->
+
+</main>
+{% endblock %}

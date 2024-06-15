@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Bookings - Vox Events Hub{% endblock %}
+
+{% block nav %}
+<nav id="navmenu" class="navmenu">
+    <ul>
+        <li><a href="{% url 'profile_view' %}">Profile</a></li>
+        <li><a href="{% url 'bookings_view' %}">My Bookings</a></li>
+        <li><a href="{% url 'artist_profiles' %}">Book Artist</a></li>
+        <li><a href="{% url 'payments_view' %}">Payments</a></li>
+        <li><a href="{% url 'reviews_view' %}">Reviews</a></li>
+        <li><a href="{% url 'setting_clientsview' %}">Settings</a></li>
+        <li><a href="{% url 'logout' %}"><strong>Logout | {{ user.username }}</strong></a></li>
+    </ul>
+    <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+</nav>
+{% endblock %}
+
+{% block main %}
+<main class="main">
+    <div class="container py-4">
+        <!-- Gig Requests Section -->
+        <div class="row mb-4">
+            <div class="col-lg-4">
+                <div class="card" style="background-color: #f8f9fa; color: #343a40;">
+                    <div class="card-header" style="background-color: #e9ecef; color: #343a40;">
+                        <h3 class="card-title">Pending Requests</h3>
+                    </div>
+                    <ul class="list-group list-group-flush gig-requests-list">
+                        {% for request in booking_requests %}
+                        <li class="list-group-item gig-request-item" data-gig-id="{{ request.id }}" style="border: 1px solid #dee2e6; margin-bottom: 10px; border-radius: 5px;">
+                            <h5 class="mb-1">{{ request.event_name }}</h5>
+                            <p class="mb-1"><strong>Date:</strong> {{ request.event_date }}</p>
+                            <p class="mb-1"><strong>Time:</strong> {{ request.event_time }}</p>
+                            <p class="mb-1"><strong>Location:</strong> {{ request.event_location }}</p>
+                            <p class="mb-1"><strong>Description:</strong> {{ request.event_description }}</p>
+                            
+                            <!-- Artist details -->
+                            <p class="mb-1"><strong>Artist Username:</strong> {{ request.artist.user.username }}</p>
+                            <p class="mb-1"><strong>Artist Email:</strong> {{ request.artist.user.email }}</p>
+                            
+                        </li>
+                        {% empty %}
+                        <p>No pending bookings.</p>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Accepted Gigs Section -->
+            <div class="col-lg-4">
+                <div class="card" style="background-color: #d4edda; color: #155724;">
+                    <div class="card-header" style="background-color: #c3e6cb; color: #155724;">
+                        <h3 class="card-title">Accepted Gigs</h3>
+                    </div>
+                    <ul class="list-group list-group-flush accepted-gigs-list">
+                        {% for gig in accepted_gigs %}
+                        <li class="list-group-item accepted-gig-item" style="border: 1px solid #c3e6cb; margin-bottom: 10px; border-radius: 5px;">
+                            <h5 class="mb-1">{{ gig.event_name }}</h5>
+                            <p class="mb-1"><strong>Date:</strong> {{ gig.event_date }}</p>
+                            <p class="mb-1"><strong>Time:</strong> {{ gig.event_time }}</p>
+                            <p class="mb-1"><strong>Location:</strong> {{ gig.event_location }}</p>
+                            <p class="mb-1"><strong>Description:</strong> {{ gig.event_description }}</p>
+                            <p class="mb-1"><strong>Artist Username:</strong> {{ gig.artist.user.username }}</p>
+                            <p class="mb-1"><strong>Artist Email:</strong> {{ gig.artist.user.email }}</p>
+                        </li>
+                        {% empty %}
+                        <p>No accepted bookings.</p>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Canceled Gigs Section -->
+            <div class="col-lg-4">
+                <div class="card" style="background-color: #f8d7da; color: #721c24;">
+                    <div class="card-header" style="background-color: #f5c6cb; color: #721c24;">
+                        <h3 class="card-title">Canceled Gigs</h3>
+                    </div>
+                    <ul class="list-group list-group-flush canceled-gigs-list">
+                        {% for gig in canceled_gigs %}
+                        <li class="list-group-item canceled-gig-item" style="border: 1px solid #f5c6cb; margin-bottom: 10px; border-radius: 5px;">
+                            <h5 class="mb-1">{{ gig.event_name }}</h5>
+                            <p class="mb-1"><strong>Date:</strong> {{ gig.event_date }}</p>
+                            <p class="mb-1"><strong>Time:</strong> {{ gig.event_time }}</p>
+                            <p class="mb-1"><strong>Location:</strong> {{ gig.event_location }}</p>
+                            <p class="mb-1"><strong>Description:</strong> {{ gig.event_description }}</p>
+                            <p class="mb-1"><strong>Artist Username:</strong> {{ gig.artist.user.username }}</p>
+                            <p class="mb-1"><strong>Artist Email:</strong> {{ gig.artist.user.email }}</p>
+                        </li>
+                        {% empty %}
+                        <p>No canceled gigs.</p>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Custom CSS for Hover Effect -->
+<style>
+    .list-group-item {
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .list-group-item:hover {
+        transform: scale(1.02);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+</style>
+{% endblock %}

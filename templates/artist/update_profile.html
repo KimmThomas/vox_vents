@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}Update Profile - {{ profile_info.user.username }} - Vox Events Hub{% endblock %}
+
+<style>
+  /* General Styles */
+
+  /* Container Styles */
+  .update-profile-section {
+    background: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Heading Styles */
+  h3 {
+    font-size: 1.8em;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    color: #007bff;
+    border-bottom: 2px solid #007bff;
+  }
+
+  /* Form Styles */
+  form {
+    margin-top: 20px;
+  }
+
+  label {
+    font-weight: 600;
+    margin-bottom: 8px;
+    display: block;
+    color: #333;
+  }
+
+  input[type="email"] {
+    width: 100%;
+    padding: 12px;
+    margin: 6px 0 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 16px;
+  }
+
+  input[type="file"] {
+    margin-top: 6px;
+    font-size: 16px;
+  }
+
+  input[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+  }
+
+  input[type="submit"]:hover {
+    background-color: #0056b3;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  .form-group:last-child {
+    margin-bottom: 0;
+  }
+
+  .current-profile-picture {
+    margin-top: 10px;
+    max-width: 100px;
+    max-height: 100px;
+    border-radius: 50%;
+    border: 1px solid #ccc;
+  }
+</style>
+
+{% block nav %}
+
+<nav id="navmenu" class="navmenu">
+    <ul>
+        <li><a href="{% url 'portfolio' %}">Profile</a></li>
+        <li><a href="{% url 'gig_view' %}">Bookings</a></li>
+        <li><a href="#">Events</a></li>
+        <li><a href="#">Messages</a></li>
+        <li><a href="#">Financials</a></li>
+        <li><a href="{% url 'settings_view' %}">Settings</a></li>
+        <li><a href="{% url 'logout' %}"><strong>Logout | {{ user.username }}</strong></a></li>
+    </ul>
+    <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+</nav>
+
+{% endblock %}
+
+<main class="main">
+
+  <!-- Update Profile Section -->
+  <section class="update-profile-section">
+    <h3>Update Profile</h3>
+    <form method="post" action="{% url 'update_profile' %}" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" value="{{ profile_info.user.username }}" disabled>
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" value="{{ profile_info.user.email }}">
+      </div>
+      <div class="form-group">
+        <label for="profile_picture">Profile Picture</label>
+        <input type="file" id="profile_picture" name="profile_picture">
+        {% if profile_info.profile_picture %}
+        <div class="current-profile-picture">
+          <img src="{{ profile_info.profile_picture.url }}" alt="Current Profile Picture">
+        </div>
+        {% else %}
+        <p>No profile picture uploaded</p>
+        {% endif %}
+      </div>
+      <input type="submit" value="Update Profile">
+    </form>
+  </section>
+
+</main>
+{% endblock %}

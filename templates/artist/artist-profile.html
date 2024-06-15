@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+{% load static %}
+{% load custom_filters %}
+
+{% block title %}
+{{ profile_info.user.username }} profile - Vox Events Hub
+{% endblock %}
+
+{% block nav %}
+
+<nav id="navmenu" class="navmenu">
+    <ul>
+        <li><a href="{% url 'portfolio' %}">Profile</a></li>
+        <li><a href="{% url 'gig_view' %}">Bookings</a></li>
+        <li><a href="#">Events</a></li>
+        <li><a href="#">Messages</a></li>
+        <li><a href="#">Financials</a></li>
+        <li><a href="{% url 'settings_view' %}">Settings</a></li>
+        <li><a href="{% url 'logout' %}"><strong>Logout | {{ user.username }}</strong></a></li>
+    </ul>
+    <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+</nav>
+
+{% endblock %}
+
+{% block main %}
+
+<main class="main">
+
+    <!-- Page Title -->
+    <div class="page-title" data-aos="fade">
+        <div class="container">
+            <nav class="breadcrumbs">
+                <ol>
+                    <li><a href="{% url 'dashboard' %}">Home</a></li>
+                </ol>
+            </nav>
+            <h1>Artist Profile</h1>
+        </div>
+    </div><!-- End Page Title -->
+
+    <!-- Artist Profile Section -->
+    <section id="artist-profile" class="artist-profile section">
+        <div class="container">
+            <div class="row gy-4">
+                <div class="col-lg-4">
+                    <div class="profile-info">
+                        <img src="{{ profile_info.profile_pictures.url }}" class="img-fluid" alt="Profile Picture">
+                        <h2>{{ profile_info.user.username }}</h2>
+                        <p><strong>Class:</strong> {{ profile_info.artist_class }}</p>
+                        <p><strong>Address:</strong> {{ profile_info.address }}</p>
+                        <!-- Link to Edit Profile -->
+                        <a href="{% url 'edit_profile' %}" class="btn btn-primary">Edit Profile</a>
+                    </div>
+                </div>
+
+                <div class="col-lg-8">
+                    <!-- Reviews Section -->
+                    <div class="reviews">
+                        <h3>Reviews</h3>
+                        {% for review in reviews %}
+                        <div class="review-item">
+                            <p>"{{ review.comment }}"</p>
+                            <div class="stars">
+                                {% for i in review.rating|range_filter %}
+                                <span>&#9733;</span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <!-- Playlist Section -->
+                    <div class="playlist">
+                        <h3>Playlist</h3>
+                        <ul>
+                            {% for song in playlist %}
+                            <li><strong>{{ song.title }}</strong> - {{ song.artist_name }} - {{ song.duration }} - {{ song.genre }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <!-- Pricing Section -->
+                    <div class="pricing">
+                        <h3>Pricing</h3>
+                        <p><strong>Standard Price:</strong> ${{ profile_info.pricing }} per painting</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section><!-- End Artist Profile Section -->
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="portfolio section">
+        <div class="container">
+            <div class="row gy-4">
+                <!-- Portfolio Pictures -->
+                <div class="col-lg-6">
+                    <h3>Pictures</h3>
+                    <div class="row gy-4">
+                        {% for picture in portfolio_pictures %}
+                        <div class="col-6">
+                            <a href="{{ picture.image.url }}" data-lightbox="portfolio" data-title="Picture">
+                                <img src="{{ picture.image.url }}" class="img-fluid" alt="">
+                            </a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Portfolio Videos -->
+                <div class="col-lg-6">
+                    <h3>Videos</h3>
+                    <div class="row gy-4">
+                        {% for video in portfolio_videos %}
+                        <div class="col-6">
+                            <video width="100%" class="video-hover" controls muted poster="{{ video.poster.url }}">
+                                <source src="{{ video.video.url }}" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section><!-- End Portfolio Section -->
+
+</main>
+{% endblock %}
+
+<script src="{% static 'assets/js/portfolio.js' %}"></script>

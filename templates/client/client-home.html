@@ -1,0 +1,296 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}client_home - VoxVents{% endblock %}
+
+{% block nav %}
+<nav id="navmenu" class="navmenu">
+    <ul>
+        <li><a href="{% url 'index' %}" class="active">Home</a></li>
+        <li><a href="{% url 'about' %}">About</a></li>
+        <li><a href="{% url 'services' %}">Services</a></li>
+
+        {% if user is authenticated %}
+        <li><a href="{% url 'artist_search' %}">Find Artists</a></li>
+        <li><a href="{% url 'booking_view' %}">My Bookings</a></li>
+        <li><a href="{% url 'artist_profiles' %}">Book Artist</a></li>
+        {% endif %}
+        
+        <li><a href="{% url 'contact' %}">Contact</a></li>
+        <li><a href="{% url 'signup' %}"><strong>Signup</strong></a></li>
+        <li><a href="{% url 'login' %}"><strong>Login</strong></a></li>
+    </ul>
+    <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+</nav>
+{% endblock %}
+
+<main class="main">
+{% block main %}
+<!-- Hero Section -->
+<section id="hero" class="hero section">
+    <div id="hero-carousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
+        <div class="carousel-item active">
+            <img src="{% static 'assets/img/hero-carousel/hero-carousel-1.jpg' %}" alt="">
+            <div class="carousel-container">
+                <h2>Dear Client,</h2>
+                <h2>Welcome to <span>VoxVents</span></h2>
+                <h5>Your ultimate platform to find and book talented artists</h5>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img src="{% static 'assets/img/hero-carousel/hero-carousel-2.jpg' %}" alt="">
+            <div class="carousel-container">
+                <h2>Search and Discover</h2>
+                <p>Find artists based on genre, location, and availability to suit your event needs.</p>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img src="{% static 'assets/img/hero-carousel/hero-carousel-3.jpg' %}" alt="">
+            <div class="carousel-container">
+                <h2>Manage Your Bookings</h2>
+                <p>Keep track of your event details, artist profiles, and booking status seamlessly.</p>
+            </div>
+        </div>
+        <a class="carousel-control-prev" href="#hero-carousel" role="button" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon bi bi-chevron-left" aria-hidden="true"></span>
+        </a>
+        <a class="carousel-control-next" href="#hero-carousel" role="button" data-bs-slide="next">
+            <span class="carousel-control-next-icon bi bi-chevron-right" aria-hidden="true"></span>
+        </a>
+    </div>
+
+    <div class="featured container">
+        <h2>Features and Functionalities</h2>
+        <div class="row gy-4">
+            <div class="col-lg-4 d-flex" data-aos="fade-up" data-aos-delay="100">
+                <div class="featured-item position-relative">
+                    <div class="icon"><i class="bi bi-person-circle icon"></i></div>
+                    <h4><a href="" class="stretched-link">User Authentication</a></h4>
+                    <p>Secure login and profile management for both artists and clients.</p>
+                </div>
+            </div>
+            <div class="col-lg-4 d-flex" data-aos="fade-up" data-aos-delay="200">
+                <div class="featured-item position-relative">
+                    <div class="icon"><i class="bi bi-search icon"></i></div>
+                    <h4><a href="" class="stretched-link">Search and Discover Artists</a></h4>
+                    <p>Find artists based on genre, location, availability, and more to fit your event needs.</p>
+                </div>
+            </div>
+            <div class="col-lg-4 d-flex" data-aos="fade-up" data-aos-delay="300">
+                <div class="featured-item position-relative">
+                    <div class="icon"><i class="bi bi-calendar-event icon"></i></div>
+                    <h4><a href="" class="stretched-link">Event Management</a></h4>
+                    <p>Manage event details, view artist profiles, and track booking status all in one place.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- About Section -->
+<section id="about" class="section about">
+    <div class="container" data-aos="fade-up" data-aos-delay="100">
+        <div class="row gy-4">
+            <div class="col-lg-6 order-1 order-lg-2">
+                <img src="{% static 'assets/img/about.jpg' %}" class="img-fluid" alt="">
+            </div>
+            <div class="col-lg-6 order-2 order-lg-1 content">
+                <h3>About VoxVents</h3>
+                <p class="fst-italic">VoxVents is your go-to platform for discovering and booking the best artists for your events. Our comprehensive tools ensure a seamless and efficient booking process, from finding the right artist to managing the event details.</p>
+                <ul>
+                    <li><i class="bi bi-check2-all"></i> <span>Search and discover artists based on your specific criteria.</span></li>
+                    <li><i class="bi bi-check2-all"></i> <span>Manage your bookings and event details with ease.</span></li>
+                    <li><i class="bi bi-check2-all"></i> <span>Secure payment processing and detailed transaction history.</span></li>
+                </ul>
+                <p>Join VoxVents to find the perfect artist for your event and ensure an unforgettable experience.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Services Section -->
+<section id="services" class="section services">
+    <div class="container">
+        <div class="row gy-4">
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                <div class="service-item position-relative">
+                    <div class="icon"><i class="bi bi-people"></i></div>
+                    <a href="#" class="stretched-link"><h3>User Profiles</h3></a>
+                    <p>Allow users to create and manage detailed profiles, whether they are artists or clients.</p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                <div class="service-item position-relative">
+                    <div class="icon"><i class="bi bi-search"></i></div>
+                    <a href="#" class="stretched-link"><h3>Search and Discover Artists</h3></a>
+                    <p>Find the perfect artists for your events based on genre, location, availability, and other criteria.</p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                <div class="service-item position-relative">
+                    <div class="icon"><i class="bi bi-calendar-check"></i></div>
+                    <a href="#" class="stretched-link"><h3>Booking Requests</h3></a>
+                    <p>Send booking requests to artists with specific event details and requirements.</p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="400">
+                <div class="service-item position-relative">
+                    <div class="icon"><i class="bi bi-calendar3"></i></div>
+                    <a href="#" class="stretched-link"><h3>Event Management</h3></a>
+                    <p>Manage event details, view artist profiles, and track booking status all in one place.</p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="500">
+                <div class="service-item position-relative">
+                    <div class="icon"><i class="bi bi-credit-card"></i></div>
+                    <a href="#" class="stretched-link"><h3>Secure Payments</h3></a>
+                    <p>Integrate with payment gateways like Stripe or PayPal for secure transactions and escrow system.</p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="600">
+                <div class="service-item position-relative">
+                    <div class="icon"><i class="bi bi-chat-dots"></i></div>
+                    <a href="#" class="stretched-link"><h3>Direct Messaging</h3></a>
+                    <p>Enable direct communication between clients and artists to discuss gig details and requirements.</p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="700">
+                <div class="service-item position-relative">
+                    <div class="icon"><i class="bi bi-star"></i></div>
+                    <a href="#" class="stretched-link"><h3>Reviews and Ratings</h3></a>
+                    <p>Leave reviews and ratings for artists based on their performance.</p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="800">
+                <div class="service-item position-relative">
+                    <div class="icon"><i class="bi bi-bell"></i></div>
+                    <a href="#" class="stretched-link"><h3>Notification System</h3></a>
+                    <p>Receive real-time and email notifications for booking requests, confirmations, messages, and updates.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action Section -->
+<section id="cta" class="section cta">
+    <div class="container" data-aos="zoom-out">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h3>Join VoxVents Today</h3>
+                <p>Discover and book the best artists for your events with ease and confidence.</p>
+                <a class="cta-btn" href="#">Get Started</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact" class="section contact">
+    <div class="container" data-aos="fade-up">
+        <div class="row gy-4">
+            <div class="col-lg-6">
+                <div class="info-item d-flex">
+                    <i class="bi bi-geo-alt"></i>
+                    <div>
+                        <h4>Location:</h4>
+                        <p>A108 Adam Street, New York, NY 535022</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="info-item d-flex">
+                    <i class="bi bi-envelope"></i>
+                    <div>
+                        <h4>Email:</h4>
+                        <p>info@example.com</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="info-item d-flex">
+                    <i class="bi bi-phone"></i>
+                    <div>
+                        <h4>Call:</h4>
+                        <p>+1 5589 55488 55</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="info-item d-flex">
+                    <i class="bi bi-clock"></i>
+                    <div>
+                        <h4>Open Hours:</h4>
+                        <p>Monday-Friday: 9am - 5pm</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <form action="forms/contact.php" method="post" class="php-email-form" data-aos="fade-up" data-aos-delay="100">
+            <div class="row gy-4">
+                <div class="col-md-6">
+                    <input type="text" name="name" class="form-control" placeholder="Your Name" required>
+                </div>
+                <div class="col-md-6">
+                    <input type="email" name="email" class="form-control" placeholder="Your Email" required>
+                </div>
+                <div class="col-md-12">
+                    <input type="text" name="subject" class="form-control" placeholder="Subject" required>
+                </div>
+                <div class="col-md-12">
+                    <textarea name="message" class="form-control" rows="6" placeholder="Message" required></textarea>
+                </div>
+                <div class="col-md-12 text-center">
+                    <button type="submit">Send Message</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}
+</main>
+
+{% block footer %}
+<footer id="footer" class="footer">
+    <div class="footer-top">
+        <div class="container">
+            <div class="row gy-4">
+                <div class="col-lg-3 col-md-12 footer-info">
+                    <a href="index.html" class="logo d-flex align-items-center">
+                        <span>VoxVents Hub</span>
+                    </a>
+                    <p>Providing a seamless platform for clients to discover and book the best artists for their events.</p>
+                    <div class="social-links mt-3">
+                        <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+                        <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-6 footer-links">
+                    <h4>Useful Links</h4>
+                    <ul>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">About us</a></li>
+                        <li><a href="#">Services</a></li>
+                        <li><a href="#">Terms of service</a></li>
+                        <li><a href="#">Privacy policy</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
+                    <h4>Contact Us</h4>
+                    <p>
+                        A108 Adam Street <br>
+                        New York, NY 535022<br>
+                        United States <br><br>
+                        <strong>Phone:</strong> +1 5589 55488 55<br>
+                        <strong>Email:</strong> info@example.com<br>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+{% endblock %}

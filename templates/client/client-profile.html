@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Profile - Vox Events Hub{% endblock %}
+
+{% block nav %}
+<nav id="navmenu" class="navmenu">
+    <ul>
+        <li><a href="{% url 'profile_view' %}">Profile</a></li>
+        <li><a href="{% url 'bookings_view' %}">My Bookings</a></li>
+        <li><a href="{% url 'artist_profiles' %}">Book Artist</a></li>
+        <li><a href="{% url 'payments_view' %}">Payments</a></li> <!-- New tab: Payments -->
+        <li><a href="{% url 'reviews_view' %}">Reviews</a></li> <!-- New tab: Reviews -->
+        <li><a href="{% url 'setting_clientsview' %}">Settings</a></li> <!-- New tab: Settings -->
+        <li><a href="{% url 'logout' %}"><strong>Logout | {{ user.username }}</strong></a></li>
+    </ul>
+    <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+</nav>
+{% endblock %}
+
+{% block main %}
+<main class="main">
+    <section id="profile" class="section profile">
+        <div class="container">
+            <h2>Welcome, {{ user.username }}!</h2>
+            <div class="profile-info">
+                <p>Email: {{ user.email }}</p>
+                <!-- Add more profile details as needed -->
+                <p>Phone Number: {{ user.profile.phone_number }}</p>
+                <p>Address: {{ user.profile.address }}</p>
+                <!-- Display other profile details stored in the user profile model -->
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}

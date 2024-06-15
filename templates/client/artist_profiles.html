@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Artist Profiles - Vox Events Hub{% endblock %}
+
+{% block nav %}
+<nav id="navmenu" class="navmenu">
+    <ul>
+        <li><a href="{% url 'profile_view' %}">Profile</a></li>
+        <li><a href="{% url 'bookings_view' %}">My Bookings</a></li>
+        <li><a href="{% url 'artist_profiles' %}">Book Artist</a></li>
+        <li><a href="{% url 'payments_view' %}">Payments</a></li>
+        <li><a href="{% url 'reviews_view' %}">Reviews</a></li>
+        <li><a href="{% url 'setting_clientsview' %}">Settings</a></li>
+        <li><a href="{% url 'logout' %}"><strong>Logout | {{ user.username }}</strong></a></li>
+    </ul>
+    <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+</nav>
+{% endblock %}
+
+{% block main %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artist Profiles</title>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            padding: 20px;
+            margin: 0;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        
+        .artist-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .artist-card {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 300px; /* Adjust as needed */
+            text-align: center;
+        }
+        
+        .profile-picture {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 15px;
+        }
+        
+        .artist-card h2 {
+            font-size: 1.5em;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .artist-card p {
+            font-size: 1.1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .artist-card {
+                width: 100%; /* Full width on smaller screens */
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Artist Profiles</h1>
+
+    <div class="artist-container">
+        {% for artist in artists %}
+        <div class="artist-card">
+            {% if artist.profile_picture %}
+            <img src="{{ artist.profile_picture.url }}" class="img-fluid" alt="Profile Picture">
+            {% else %}
+            <img src="path/to/default/profile_picture.jpg" class="img-fluid" alt="Default Profile Picture"> <!-- Add default image path here -->
+            {% endif %}
+            <h2>{{ artist.user.username }}</h2>
+            <p><strong>Class:</strong> {{ artist.class_name }}</p>
+            <p><strong>Address:</strong> {{ artist.address }}</p>
+            <p><strong>Pricing:</strong> {{ artist.pricing }}</p>
+            <a href="{% url 'book_artist_view' artist.user.username %}" class="btn btn-primary">Book</a>
+        </div>
+        {% empty %}
+        <p>No artists found.</p>
+        {% endfor %}
+    </div>
+   
+    
+</body>
+{% endblock %}
