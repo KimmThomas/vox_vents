@@ -1,0 +1,190 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Full Artist Profile - {{ profile_info.user.username }}{% endblock %}
+
+{% block nav %}
+<nav id="navmenu" class="navmenu">
+    <ul>
+        <li><a href="{% url 'profile_view' %}">Profile</a></li>
+        <li><a href="{% url 'bookings_view' %}">My Bookings</a></li>
+        <li><a href="{% url 'artist_profiles' %}">Book Artist</a></li>
+        <li><a href="{% url 'payments_view' %}">Payments</a></li>
+        <li><a href="{% url 'reviews_view' %}">Reviews</a></li>
+        <li><a href="{% url 'setting_clientsview' %}">Settings</a></li>
+        <li><a href="{% url 'logout' %}"><strong>Logout | {{ user.username }}</strong></a></li>
+    </ul>
+    <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+</nav>
+{% endblock %}
+
+{% block main %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Full Artist Profile</title>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            padding: 20px;
+            margin: 0;
+        }
+        
+        .profile-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        
+        .profile-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .profile-header img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .profile-header h1 {
+            font-size: 2em;
+            color: #333;
+            margin: 15px 0 5px;
+        }
+        
+        .profile-header p {
+            font-size: 1.2em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .profile-section {
+            margin-bottom: 30px;
+        }
+        
+        .profile-section h2 {
+            font-size: 1.5em;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .profile-section p {
+            font-size: 1.1em;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .portfolio-media {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        
+        .portfolio-media img, .portfolio-media video {
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .reviews, .songs {
+            margin-bottom: 20px;
+        }
+        
+        .reviews p, .songs p {
+            margin: 0 0 10px;
+        }
+        
+        .btn-book {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            text-align: center;
+            border-radius: 8px;
+            text-decoration: none;
+        }
+        
+        .btn-book:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <div class="profile-header">
+            {% if profile_info.profile_picture %}
+            <img src="{{ profile_info.profile_picture.url }}" alt="Profile Picture">
+            {% else %}
+            <img src="{% static 'images/default_profile_picture.jpg' %}" alt="Default Profile Picture">
+            {% endif %}
+            <h1>{{ profile_info.user.username }}</h1>
+            <p><strong>Class:</strong> {{ profile_info.class_name }}</p>
+            <p><strong>Address:</strong> {{ profile_info.address }}</p>
+            <p><strong>Pricing:</strong> {{ profile_info.pricing }}</p>
+        </div>
+        
+        <div class="profile-section">
+            <h2>Reviews</h2>
+            <div class="reviews">
+                {% for review in reviews %}
+                <p><strong>{{ review.user.username }}</strong>: {{ review.review_text }} ({{ review.star_rating }} stars)</p>
+                {% empty %}
+                <p>No reviews yet.</p>
+                {% endfor %}
+            </div>
+        </div>
+        
+        <div class="profile-section">
+            <h2>Songs</h2>
+            <div class="songs">
+                {% for song in playlist %}
+                <p>{{ song.title }}</p>
+                <audio controls>
+                    <source src="{{ song.file.url }}" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+                {% empty %}
+                <p>No songs uploaded yet.</p>
+                {% endfor %}
+            </div>
+        </div>
+        
+        <div class="profile-section">
+            <h2>Portfolio Pictures</h2>
+            <div class="portfolio-media">
+                {% for picture in portfolio_pictures %}
+                <img src="{{ picture.image.url }}" alt="Portfolio Picture">
+                {% empty %}
+                <p>No portfolio pictures uploaded yet.</p>
+                {% endfor %}
+            </div>
+        </div>
+        
+        <div class="profile-section">
+            <h2>Portfolio Videos</h2>
+            <div class="portfolio-media">
+                {% for video in portfolio_videos %}
+                <video controls>
+                    <source src="{{ video.video.url }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                {% empty %}
+                <p>No portfolio videos uploaded yet.</p>
+                {% endfor %}
+            </div>
+        </div>
+        
+        <a href="{% url 'book_artist_view' profile_info.user.username %}" class="btn-book">Book</a>
+    </div>
+</body>
+{% endblock %}

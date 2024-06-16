@@ -179,6 +179,23 @@ def artist_profile(request, username):
 
     return render(request, 'artist/artist_profile.html', context)
 
+
+def full_artist_profile(request, username):
+    profile = get_object_or_404(Profile, user__username=username)
+    reviews = Review.objects.filter(artist=profile)
+    playlist = Song.objects.filter(artist=profile)
+    portfolio_pictures = PortfolioPicture.objects.filter(artist=profile)
+    portfolio_videos = PortfolioVideo.objects.filter(artist=profile)
+    
+    context = {
+        'profile_info': profile,
+        'reviews': reviews,
+        'playlist': playlist,
+        'portfolio_pictures': portfolio_pictures,
+        'portfolio_videos': portfolio_videos,
+    }
+    return render(request, 'client/full_artistProfile.html', context)
+
 @login_required
 def gig_view(request):
     profile = request.user.profile
@@ -320,6 +337,8 @@ def book_artist_view(request, username):
         'form': form,
     }
     return render(request, 'client/book_artist.html', context)
+
+
 
 def artist_profiles(request):
     artists = Profile.objects.filter(user_type='artist')

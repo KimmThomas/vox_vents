@@ -35,7 +35,8 @@ urlpatterns = [
     path('reject_gig_request/<int:request_id>/', views.reject_gig_request, name='reject_gig_request'),
 
     path('artist-profiles/', views.artist_profiles, name='artist_profiles'),
-    path('artist/<str:username>/', views.book_artist_view, name='book_artist_view'),
+    path('artist_profiles/<str:username>/', views.full_artist_profile, name='full_artist_profile'),
+    path('book_artist/<str:username>/', views.book_artist_view, name='book_artist_view'),
 
     path('artist-profile/', views.artist_profile, name='artist_profile'),
     path('update-pricing/<str:username>/', views.update_pricing_view, name='update_pricing'),
