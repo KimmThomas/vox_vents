@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.http import HttpResponse
+import logging
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import ensure_csrf_cookie
 from .forms import SignUpForm, CustomSetPasswordForm
@@ -16,6 +17,8 @@ from django.contrib.auth.models import User
 from .models import Profile, Review, Song, Price, PortfolioPicture, PortfolioVideo, Booking, Payment, ClientReview, GigRequest, AcceptedGig, CanceledGig
 from django.http import JsonResponse
 
+
+logger = logging.getLogger(__name__)
 
 def index(request):
     return render(request, 'index.html')
@@ -179,14 +182,18 @@ def artist_profile(request, username):
 @login_required
 def gig_view(request):
     profile = request.user.profile
-    gig_requests = GigRequest.objects.filter(artist=profile)
+    gig_requests = BookingRequest.objects.filter(artist=profile)
     accepted_gigs = AcceptedGig.objects.filter(artist=profile)
     canceled_gigs = CanceledGig.objects.filter(artist=profile)
+    logger.debug(f"gig_requests: {gig_requests}")
+    logger.debug(f"accepted_gigs: {accepted_gigs}")
+    logger.debug(f"canceled_gigs: {canceled_gigs}")
     context = {
         'gig_requests': gig_requests,
         'accepted_gigs': accepted_gigs,
         'canceled_gigs': canceled_gigs,
     }
+    
     return render(request, 'artist/gig-view.html', context)
 
 @login_required
@@ -251,10 +258,10 @@ def profile_view(request):
 
 @login_required
 def bookings_view(request):
-
-    booking_requests = BookingRequest.objects.all()
-    accepted_gigs = AcceptedGig.objects.all()
-    canceled_gigs = CanceledGig.objects.all()
+    user = request.user
+    booking_requests = BookingRequest.objects.filter(user=user)
+    accepted_gigs = AcceptedGig.objects.filter(client_username=user.username)
+    canceled_gigs = CanceledGig.objects.filter(client_username=user.username)
 
     context = {
         'booking_requests': booking_requests,
