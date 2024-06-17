@@ -5,6 +5,7 @@ from .forms import CustomPasswordResetForm, CustomSetPasswordForm
 from .views import CustomPasswordResetConfirmView, logout_view
 
 
+
 urlpatterns = [
     path('', views.index, name='index'),
     path('about', views.about, name='about'),
@@ -41,7 +42,8 @@ urlpatterns = [
     path('artist-profile/', views.artist_profile, name='artist_profile'),
     path('update-pricing/<str:username>/', views.update_pricing_view, name='update_pricing'),
     path('add_portfolio_picture/<str:username>/', views.add_portfolio_picture, name='add_portfolio_picture'),
-    
+
+       
     
     path('logout/', logout_view, name='logout'),
     

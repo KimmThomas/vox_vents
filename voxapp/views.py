@@ -14,8 +14,9 @@ from .artist_bookingForm import BookingRequest, BookingRequestForm
 from django.contrib.auth.views import PasswordResetConfirmView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from .models import Profile, Review, Song, Price, PortfolioPicture, PortfolioVideo, Booking, Payment, ClientReview, GigRequest, AcceptedGig, CanceledGig
+from .models import Profile, Review, Song, Price, PortfolioPicture, PortfolioVideo, Booking, Payment, ClientReview, GigRequest, AcceptedGig, CanceledGig, Notification
 from django.http import JsonResponse
+from django.contrib import messages
 
 
 logger = logging.getLogger(__name__)
@@ -202,15 +203,26 @@ def gig_view(request):
     gig_requests = BookingRequest.objects.filter(artist=profile)
     accepted_gigs = AcceptedGig.objects.filter(artist=profile)
     canceled_gigs = CanceledGig.objects.filter(artist=profile)
-    logger.debug(f"gig_requests: {gig_requests}")
-    logger.debug(f"accepted_gigs: {accepted_gigs}")
-    logger.debug(f"canceled_gigs: {canceled_gigs}")
+
+    # Create notifications for new gig requests if they don't already exist
+    for request_obj in gig_requests:
+        Notification.objects.get_or_create(
+            user=request_obj.artist.user,
+            title="New Gig Request",
+            content=f"You have received a new gig request for '{request_obj.event_name}' from {request_obj.user.username}.",
+            defaults={'is_read': False}
+        )
+
+    # Retrieve notifications for the current user (artist) and order by created_at (latest first)
+    notifications = Notification.objects.filter(user=request.user, title="New Gig Request").order_by('-created_at')
+
     context = {
         'gig_requests': gig_requests,
         'accepted_gigs': accepted_gigs,
         'canceled_gigs': canceled_gigs,
+        'notifications': notifications,
     }
-    
+
     return render(request, 'artist/gig-view.html', context)
 
 @login_required
@@ -229,6 +241,13 @@ def accept_gig_request(request, request_id):
         client_email=booking_request.user.email
     )
     
+    # Notify the client about the accepted gig request
+    Notification.objects.create(
+        user=booking_request.user,  # Client who made the booking request
+        title="Gig Request Accepted",
+        content=f"Your gig request for '{booking_request.event_name}' has been accepted by {booking_request.artist.user.username}."
+    )
+    
     # Optionally delete the BookingRequest
     booking_request.delete()
     
@@ -237,6 +256,7 @@ def accept_gig_request(request, request_id):
     
     # Return JSON response with accepted gig HTML
     return JsonResponse({'accepted_gig_html': accepted_gig_html})
+
 
 @login_required
 def reject_gig_request(request, request_id):
@@ -254,14 +274,22 @@ def reject_gig_request(request, request_id):
         client_email=booking_request.user.email
     )
     
+    # Notify the client about the rejected gig request
+    Notification.objects.create(
+        user=booking_request.user,  # Client who made the booking request
+        title="Gig Request Rejected",
+        content=f"Your gig request for '{booking_request.event_name}' has been rejected by {booking_request.artist.user.username}."
+    )
+    
     # Optionally delete the BookingRequest
     booking_request.delete()
     
     # Render HTML for the canceled gig
-    canceled_gig_html = render_to_string('path_to_canceled_gig_template.html', {'gig': canceled_gig})
+    canceled_gig_html = render_to_string('canceled_gig_template.html', {'gig': canceled_gig})
     
     # Return JSON response with canceled gig HTML
     return JsonResponse({'canceled_gig_html': canceled_gig_html})
+
 
 ### Client Views
 

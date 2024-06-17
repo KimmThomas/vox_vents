@@ -12,6 +12,23 @@
         <li><a href="{% url 'payments_view' %}">Payments</a></li>
         <li><a href="{% url 'reviews_view' %}">Reviews</a></li>
         <li><a href="{% url 'setting_clientsview' %}">Settings</a></li>
+        <li class="dropdown">
+            <a href="#"><span>Notifications</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+            <ul>
+                {% for notification in notifications %}
+                    {% if notification.title == "Gig Request Accepted" or notification.title == "Gig Request Rejected" %}
+                        <li class="notification-item">
+                            <h3>{{ notification.title }}</h3>
+                            <p>{{ notification.content }}</p>
+                        </li>
+                    {% endif %}
+                {% empty %}
+                    <li class="notification-item">
+                        <p>No notifications</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        </li>
         <li><a href="{% url 'logout' %}"><strong>Logout | {{ user.username }}</strong></a></li>
     </ul>
     <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
