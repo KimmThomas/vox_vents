@@ -34,7 +34,7 @@
 
 </head>
 
-<body class="index-page">
+<body class="wrapper">
 
   <header id="header" class="header sticky-top">
 
@@ -313,66 +313,65 @@
 
   </main>
 
-  <footer id="footer" class="footer position-relative">
+   <!-- Footer -->
+   <footer id="footer" class="footer">
+    <div class="footer-top">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-3 col-md-6 footer-contact">
+            <h4>Contact Us</h4>
+            <p>
+              VoxVents<br>
+              Nairobi, Kenya<br>
+              <br>
+              <strong>Phone:</strong> +254 748 625393<br>
+              <strong>Email:</strong> info@voxvents.com<br>
+            </p>
+          </div>
 
-    <div class="container footer-top">
-      <div class="row gy-4">
-        <div class="col-lg-4 col-md-6 footer-about">
-          <a href="index" class="d-flex align-items-center">
-            <span class="sitename">Vox Events Hub</span>
-          </a>
-          <div class="footer-contact pt-3">
-            <p>AmBank House</p>
-            <p>New Utalii Lane, Nairobi</p>
-            <p class="mt-3"><strong>Phone:</strong> <span>+254 748 625 393</span></p>
-            <p><strong>Email:</strong> <span>info@voxvents.com</span></p>
+          <div class="col-lg-3 col-md-6 footer-links">
+            <h4>Useful Links</h4>
+            <ul>
+              <li><i class="bi bi-chevron-right"></i> <a href="#">Home</a></li>
+              <li><i class="bi bi-chevron-right"></i> <a href="#">About us</a></li>
+              <li><i class="bi bi-chevron-right"></i> <a href="#">Services</a></li>
+              <li><i class="bi bi-chevron-right"></i> <a href="#">Terms of service</a></li>
+              <li><i class="bi bi-chevron-right"></i> <a href="#">Privacy policy</a></li>
+            </ul>
+          </div>
+
+          <div class="col-lg-3 col-md-6 footer-links">
+            <h4>Our Services</h4>
+            <ul>
+              <li><i class="bi bi-chevron-right"></i> <a href="#">Event Planning</a></li>
+              <li><i class="bi bi-chevron-right"></i> <a href="#">Talent Booking</a></li>
+              <li><i class="bi bi-chevron-right"></i> <a href="#">Artist Promotion</a></li>
+              <li><i class="bi bi-chevron-right"></i> <a href="#">Event Management</a></li>
+              <li><i class="bi bi-chevron-right"></i> <a href="#">Consultation</a></li>
+            </ul>
+          </div>
+
+          <div class="col-lg-3 col-md-6 footer-links">
+            <h4>Our Social Networks</h4>
+            <p>Follow us on social media to stay updated with the latest news and events!</p>
+            <div class="social-links mt-3">
+              <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+              <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+              <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+              <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+            </div>
           </div>
         </div>
-
-        <div class="col-lg-2 col-md-3 footer-links">
-          <h4>Useful Links</h4>
-          <ul>
-            <li><i class="bi bi-chevron-right"></i> <a href="{% url 'index' %}">Home</a></li>
-              <li><i class="bi bi-chevron-right"></i> <a href="{% url 'about' %}">About us</a></li>
-              <li><i class="bi bi-chevron-right"></i> <a href="{% url 'services' %}">Services</a></li>
-              <li><i class="bi bi-chevron-right"></i> <a href="{% url 'terms' %}">Terms of service</a></li>
-              <li><i class="bi bi-chevron-right"></i> <a href="{% url 'privacy' %}">Privacy policy</a></li>
-          </ul>
-        </div>
-
-        <div class="col-lg-2 col-md-3 footer-links">
-          <h4>Our Services</h4>
-          <ul>
-            <li><i class="bi bi-chevron-right"></i> <a href="#">Artist Booking</a></li>
-              <li><i class="bi bi-chevron-right"></i> <a href="#">Profile Management</a></li>
-              <li><i class="bi bi-chevron-right"></i> <a href="#">Secure Payments</a></li>
-          </ul>
-        </div>
-
-        <div class="col-lg-4 col-md-12">
-          <h4>Follow Us</h4>
-          <div class="social-links d-flex">
-            <a href=""><i class="bi bi-twitter-x"></i></a>
-            <a href=""><i class="bi bi-facebook"></i></a>
-            <a href=""><i class="bi bi-instagram"></i></a>
-            <a href=""><i class="bi bi-linkedin"></i></a>
-          </div>
-        </div>
-
       </div>
     </div>
 
-    <div class="container copyright text-center mt-4">
-      <p>© <span>Copyright</span> <strong class="px-1 sitename">Vox Events Hub</strong> <span>All Rights Reserved</span></p>
-      <div class="credits">
-
-        Designed by <a href="https://voxvents.com" target="_blank">Voxvents</a>
-
+    <div class="container">
+      <div class="copyright">
+        &copy; 2023 <strong><span>VoxVents</span></strong>. All Rights Reserved
       </div>
     </div>
 
-  </footer>
-
+  </footer><!-- /Footer -->
   <!-- Scroll Top -->
   <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 

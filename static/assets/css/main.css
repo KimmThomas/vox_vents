@@ -244,6 +244,23 @@ h6 {
   }
 }
 
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* This ensures the wrapper takes at least the full viewport height */
+}
+
+main {
+  flex: 1; /* This allows the main content area to expand and push the footer down */
+}
+
+
 /*--------------------------------------------------------------
 # Navigation Menu
 --------------------------------------------------------------*/
@@ -601,16 +618,14 @@ h6 {
 }
 
 .footer .social-links a {
-  display: flex;
+  display: inline-flexbox;
   align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: 1px solid color-mix(in srgb, var(--default-color), transparent 50%);
-  font-size: 16px;
+  justify-content: justify;
+  width: 60px;
+  height: 60px;
+  font-size: 32px;
   color: color-mix(in srgb, var(--default-color), transparent 20%);
-  margin-right: 10px;
+  margin-right: 40px;
   transition: 0.3s;
 }
 
