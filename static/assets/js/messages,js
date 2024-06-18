@@ -1,0 +1,12 @@
+//messages.js
+
+document.addEventListener('DOMContentLoaded', function() {
+    const messageItems = document.querySelectorAll('.message-list .message-bundle li');
+    
+    messageItems.forEach(function(item) {
+        item.addEventListener('click', function() {
+            // Handle click event (e.g., display full message, open reply form)
+            // Example: console.log(item.textContent);
+        });
+    });
+});

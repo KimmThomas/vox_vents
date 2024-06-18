@@ -17,6 +17,8 @@ from django.contrib.auth.models import User
 from .models import Profile, Review, Song, Price, PortfolioPicture, PortfolioVideo, Booking, Payment, ClientReview, GigRequest, AcceptedGig, CanceledGig, Notification
 from django.http import JsonResponse
 from django.contrib import messages
+from .models import Message
+from .message_form import MessageForm
 
 
 logger = logging.getLogger(__name__)
@@ -502,6 +504,43 @@ def add_portfolio_picture(request, username):
         'username': username,
     }
     return render(request, 'artist/add_portfolio_picture.html', context)
+
+
+@login_required
+def messages_view(request):
+    user = request.user
+    
+    notifications = Notification.objects.filter(user=user).order_by('-created_at')
+    received_messages = Message.objects.filter(recipient=user).order_by('-timestamp')
+    sent_messages = Message.objects.filter(sender=user).order_by('-timestamp')
+
+    if request.method == 'POST':
+        form = MessageForm(request.POST)
+        if form.is_valid():
+            message = form.save(commit=False)
+            message.sender = user
+            message.save()
+
+            # Create a notification for the recipient
+            Notification.objects.create(
+                user=message.recipient,
+                title=f'New Message from {user.username}',
+                content=f'You have received a new message from {user.username}.'
+            )
+            
+            return redirect('messages')  # Redirect back to the messages view after saving
+    else:
+        form = MessageForm()
+
+    context = {
+        'notifications': notifications,
+        'received_messages': received_messages,
+        'sent_messages': sent_messages,
+        'form': form,
+    }
+
+    return render(request, 'messages.html', context)
+
 
 
 

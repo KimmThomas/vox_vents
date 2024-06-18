@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+
 {% load static %}
 
 {% block title %}Profile - Vox Events Hub{% endblock %}
@@ -6,29 +7,29 @@
 {% block nav %}
 <nav id="navmenu" class="navmenu">
     <ul>
-        <li><a href="{% url 'profile_view' %}">Profile</a></li>
-        <li><a href="{% url 'bookings_view' %}">My Bookings</a></li>
-        <li><a href="{% url 'artist_profiles' %}">Book Artist</a></li>
-        <li><a href="{% url 'payments_view' %}">Payments</a></li> <!-- New tab: Payments -->
-        <li><a href="{% url 'reviews_view' %}">Reviews</a></li> <!-- New tab: Reviews -->
-        <li><a href="{% url 'setting_clientsview' %}">Settings</a></li> <!-- New tab: Settings -->
+        <li><a href="{% url 'portfolio' %}">Profile</a></li>
+        <li><a href="{% url 'gig_view' %}">Bookings</a></li>
+        <li><a href="#">Events</a></li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'messages' %}">Messages</a>
+        </li>
+        <li><a href="#">Financials</a></li>
+        <li><a href="{% url 'settings_view' %}">Settings</a></li>
         <li class="dropdown">
-          <a href="#"><span>Notifications</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-          <ul>
-              {% for notification in notifications %}
-                  {% if notification.title == "Gig Request Accepted" or notification.title == "Gig Request Rejected" %}
-                      <li class="notification-item">
-                          <h3>{{ notification.title }}</h3>
-                          <p>{{ notification.content }}</p>
-                      </li>
-                  {% endif %}
-              {% empty %}
-                  <li class="notification-item">
-                      <p>No notifications</p>
-                  </li>
-              {% endfor %}
-          </ul>
-      </li>
+            <a href="#"><span>Notifications</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+            <ul>
+                {% for notification in notifications %}
+                    <li class="notification-item">
+                        <h3>{{ notification.title }}</h3>
+                        <p>{{ notification.content }}</p>
+                    </li>
+                {% empty %}
+                    <li class="notification-item">
+                        <p>No notifications</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        </li>
         <li><a href="{% url 'logout' %}"><strong>Logout | {{ user.username }}</strong></a></li>
     </ul>
     <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
@@ -74,9 +75,9 @@
                         <div class="review-item">
                             <p>"{{ review.comment }}"</p>
                             <div class="stars">
-                                {% for i in review.rating|range_filter %}
+                               
                                 <span>&#9733;</span>
-                                {% endfor %}
+                               
                             </div>
                         </div>
                         {% endfor %}
@@ -140,5 +141,3 @@
 
 </main>
 {% endblock %}
-
-<script src="{% static 'assets/js/portfolio.js' %}"></script>

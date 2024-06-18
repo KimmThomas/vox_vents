@@ -43,7 +43,9 @@ urlpatterns = [
     path('update-pricing/<str:username>/', views.update_pricing_view, name='update_pricing'),
     path('add_portfolio_picture/<str:username>/', views.add_portfolio_picture, name='add_portfolio_picture'),
 
-       
+    
+    path('messages/', views.messages_view, name='messages'),
+    
     
     path('logout/', logout_view, name='logout'),
     
