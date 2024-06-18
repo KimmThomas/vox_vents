@@ -31,8 +31,17 @@ def services(request):
     return render(request, 'services.html')
 
 def portfolio(request):
-    # Adjust to match your application's portfolio functionality
-    return render(request, 'artist/artist-profile.html')
+    profile_info = request.user.profile
+
+    # Retrieve notifications for the current user (artist) and order by created_at (latest first)
+    notifications = Notification.objects.filter(user=request.user).order_by('-created_at')
+
+    context = {
+        'profile_info': profile_info,
+        'notifications': notifications,
+    }
+    return render(request, 'artist/artist-profile.html', context=context)
+    
 
 def contact(request):
     return render(request, 'contact.html')
@@ -86,17 +95,38 @@ def logout_view(request):
     logout(request)
     return redirect('login')
 
+@login_required
 def dashboard(request):
     user = request.user
+
     if user.is_staff or user.is_superuser:
         return redirect('/admin/')  # Redirect admin users to the admin panel
+
     try:
         if user.profile.user_type == 'artist':
-            return render(request, 'artist/artist-dashboard.html')
+            profile = request.user.profile
+
+            # Retrieve notifications for the current user (artist) and order by created_at (latest first)
+            notifications = Notification.objects.filter(user=request.user).order_by('-created_at')
+
+            context = {
+                'profile_info': profile,
+                'notifications': notifications,
+            }
+            return render(request, 'artist/artist-dashboard.html', context=context)
+        
         elif user.profile.user_type == 'client':
-            return render(request, 'client/client-dashboard.html')
+            # Retrieve notifications for the current user (client) and order by created_at (latest first)
+            notifications = Notification.objects.filter(user=request.user).order_by('-created_at')
+
+            context = {
+                'notifications': notifications,
+            }
+            return render(request, 'client/client-dashboard.html', context=context)
+        
         else:
             return render(request, 'admin-dashboard.html')
+    
     except Profile.DoesNotExist:
         return redirect('create_profile')  # Redirect to a profile creation view or some other fallback
 
@@ -111,7 +141,17 @@ def artist_home(request):
 
 @login_required
 def settings_view(request):
-    return render(request, 'artist/settings.html')
+    profile = request.user.profile
+
+    # Retrieve notifications for the current user (artist) and order by created_at (latest first)
+    notifications = Notification.objects.filter(user=request.user).order_by('-created_at')
+
+    context = {
+        'profile_info': profile,
+        'notifications': notifications,
+    }
+
+    return render(request, 'artist/settings.html', context)
 
 @login_required
 def edit_artist_profile(request):
@@ -214,7 +254,7 @@ def gig_view(request):
         )
 
     # Retrieve notifications for the current user (artist) and order by created_at (latest first)
-    notifications = Notification.objects.filter(user=request.user, title="New Gig Request").order_by('-created_at')
+    notifications = Notification.objects.filter(user=request.user).order_by('-created_at')
 
     context = {
         'gig_requests': gig_requests,
@@ -304,25 +344,39 @@ def profile_view(request):
 @login_required
 def bookings_view(request):
     user = request.user
+
+    # Fetch notifications for the current user
+    notifications = Notification.objects.filter(user=user).order_by('-created_at')
+
+    # Fetch booking requests, accepted gigs, and canceled gigs for the current user
     booking_requests = BookingRequest.objects.filter(user=user)
     accepted_gigs = AcceptedGig.objects.filter(client_username=user.username)
     canceled_gigs = CanceledGig.objects.filter(client_username=user.username)
 
+    # Prepare context to pass to the template
     context = {
+        'notifications': notifications,
         'booking_requests': booking_requests,
         'accepted_gigs': accepted_gigs,
         'canceled_gigs': canceled_gigs,
+        'user': user,
     }
 
+    # Render the client bookings template with the context data
     return render(request, 'client/client-bookings.html', context)
 
 @login_required
 def payments_view(request):
     user = request.user
     payments = Payment.objects.filter(user=user)
+    
+    # Fetch notifications for the current user (client)
+    notifications = Notification.objects.filter(user=user).order_by('-created_at')
+
     context = {
         'user': user,
         'payments': payments,
+        'notifications': notifications,
     }
     return render(request, 'client/client-payments.html', context)
 
@@ -330,22 +384,36 @@ def payments_view(request):
 def reviews_view(request):
     user = request.user
     reviews = ClientReview.objects.filter(user=user)
+    
+    # Fetch notifications for the current user (client)
+    notifications = Notification.objects.filter(user=user).order_by('-created_at')
+
     context = {
         'user': user,
         'reviews': reviews,
+        'notifications': notifications,
     }
     return render(request, 'client/client-reviews.html', context)
 
 @login_required
 def setting_clientsview(request):
     user = request.user
+    
+    # Fetch notifications for the current user (client)
+    notifications = Notification.objects.filter(user=user).order_by('-created_at')
+
     context = {
         'user': user,
+        'notifications': notifications,
     }
     return render(request, 'client/client-settings.html', context)
 
+@login_required
 def book_artist_view(request, username):
     artist = get_object_or_404(Profile, user__username=username)
+
+    # Fetch notifications for the current user (client)
+    notifications = Notification.objects.filter(user=request.user).order_by('-created_at')
 
     if request.method == 'POST':
         form = BookingRequestForm(request.POST)
@@ -354,6 +422,14 @@ def book_artist_view(request, username):
             booking_request.user = request.user
             booking_request.artist = artist
             booking_request.save()
+
+            # Notify the artist about the booking request
+            Notification.objects.create(
+                user=artist.user,  # Artist who receives the booking request
+                title="New Booking Request",
+                content=f"You have a new booking request from {request.user.username} for an event."
+            )
+
             return JsonResponse({'success': 'Booking request saved successfully'})
         else:
             return JsonResponse({'error': form.errors}, status=400)
@@ -361,6 +437,7 @@ def book_artist_view(request, username):
         form = BookingRequestForm()
 
     context = {
+        'notifications': notifications,
         'artist': artist,
         'form': form,
     }
@@ -368,10 +445,19 @@ def book_artist_view(request, username):
 
 
 
+@login_required
 def artist_profiles(request):
+    user = request.user
+    
+    # Fetch notifications for the current user (client)
+    notifications = Notification.objects.filter(user=user).order_by('-created_at')
+
+    # Fetch all artists' profiles
     artists = Profile.objects.filter(user_type='artist')
+
     context = {
-        'artists': artists
+        'artists': artists,
+        'notifications': notifications,
     }
     return render(request, 'client/artist_profiles.html', context)
 

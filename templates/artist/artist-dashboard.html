@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-
 {% load static %}
 
 {% block title %}Artist Dashboard - Vox Events Hub{% endblock %}
@@ -35,150 +34,104 @@
 {% endblock %}
 
 <main class="main">
-
-{% block main %}
-
-<!-- Hero Section -->
-<section id="hero" class="hero section">
-
-    <div id="hero-carousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
-        <div class="carousel-item active">
-            <img src="{% static 'assets/img/hero-carousel/hero-carousel-1.jpg' %}" alt="">
-            <div class="carousel-container">
-                <h2>Dear {{ user.username }},</h2>
-                <h2>Welcome to <span>Vox Events Hub</span></h2>
-                <h5>A World of Endless Entertainment</h5>
+    <section id="hero" class="hero section">
+        <div id="hero-carousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
+            <div class="carousel-item active">
+                <img src="{% static 'assets/img/hero-carousel/hero-carousel-1.jpg' %}" alt="">
+                <div class="carousel-container">
+                    <h2>Dear {{ user.username }},</h2>
+                    <h2>Welcome to <span>Vox Events Hub</span></h2>
+                    <h5>A World of Endless Entertainment</h5>
+                </div>
             </div>
-        </div><!-- End Carousel Item -->
-
-        <!-- Additional Carousel Items can be added as needed -->
-
-        <a class="carousel-control-prev" href="#hero-carousel" role="button" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon bi bi-chevron-left" aria-hidden="true"></span>
-        </a>
-
-        <a class="carousel-control-next" href="#hero-carousel" role="button" data-bs-slide="next">
-            <span class="carousel-control-next-icon bi bi-chevron-right" aria-hidden="true"></span>
-        </a>
-
-    </div>
-
-    <div class="featured container">
-
-        <div class="row gy-4">
-
-            <div class="col-lg-4 d-flex" data-aos="fade-up" data-aos-delay="100">
-                <div class="featured-item position-relative">
-                    <div class="icon"><i class="bi bi-bounding-box-circles icon"></i></div>
-                    <h4><a href="" class="stretched-link">Edit Profile</a></h4>
-                    <p>Update your profile information and media.</p>
-                </div>
-            </div><!-- End Featured Item -->
-
-            <div class="col-lg-4 d-flex" data-aos="fade-up" data-aos-delay="200">
-                <div class="featured-item position-relative">
-                    <div class="icon"><i class="bi bi-calendar4-week icon"></i></div>
-                    <h4><a href="" class="stretched-link">Upcoming Gigs</a></h4>
-                    <p>View and manage your upcoming performance bookings.</p>
-                </div>
-            </div><!-- End Featured Item -->
-
-            <div class="col-lg-4 d-flex" data-aos="fade-up" data-aos-delay="300">
-                <div class="featured-item position-relative">
-                    <div class="icon"><i class="bi bi-broadcast icon"></i></div>
-                    <h4><a href="" class="stretched-link">Messages</a></h4>
-                    <p>Check and respond to client messages.</p>
-                </div>
-            </div><!-- End Featured Item -->
-
-            <!-- Additional Featured Items can be added -->
-
+            <!-- Additional Carousel Items can be added as needed -->
+            <a class="carousel-control-prev" href="#hero-carousel" role="button" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon bi bi-chevron-left" aria-hidden="true"></span>
+            </a>
+            <a class="carousel-control-next" href="#hero-carousel" role="button" data-bs-slide="next">
+                <span class="carousel-control-next-icon bi bi-chevron-right" aria-hidden="true"></span>
+            </a>
         </div>
-
-    </div>
-
-</section><!-- /Hero Section -->
-
-<!-- About Section -->
-<section id="about" class="section about">
-
-    <div class="container" data-aos="fade-up" data-aos-delay="100">
-
-        <div class="row gy-4">
-            <div class="col-lg-6 order-1 order-lg-2">
-                <img src="{% static 'assets/img/about.jpg' %}" class="img-fluid" alt="">
-            </div>
-            <div class="col-lg-6 order-2 order-lg-1 content">
-                <h3>Your Journey as an Artist</h3>
-                <p class="fst-italic">
-                    Explore opportunities and grow your career with Vox Events Hub.
-                </p>
-                <ul>
-                    <li><i class="bi bi-check2-all"></i> <span>Manage your bookings and calendar efficiently.</span></li>
-                    <li><i class="bi bi-check2-all"></i> <span>Connect with clients and collaborate seamlessly.</span></li>
-                    <li><i class="bi bi-check2-all"></i> <span>Stay updated with industry trends and tips.</span></li>
-                </ul>
-                <p>
-                    Join us on this journey of creativity and success.
-                </p>
+        <div class="featured container">
+            <div class="row gy-4">
+                <div class="col-lg-4 d-flex" data-aos="fade-up" data-aos-delay="100">
+                    <div class="featured-item position-relative">
+                        <div class="icon"><i class="bi bi-bounding-box-circles icon"></i></div>
+                        <h4><a href="{% url 'update_profile' %}" class="stretched-link">Edit Profile</a></h4>
+                        <p>Update your profile information and media.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 d-flex" data-aos="fade-up" data-aos-delay="200">
+                    <div class="featured-item position-relative">
+                        <div class="icon"><i class="bi bi-calendar4-week icon"></i></div>
+                        <h4><a href="{% url 'gig_view' %}" class="stretched-link">Upcoming Gigs</a></h4>
+                        <p>View and manage your upcoming performance bookings.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 d-flex" data-aos="fade-up" data-aos-delay="300">
+                    <div class="featured-item position-relative">
+                        <div class="icon"><i class="bi bi-broadcast icon"></i></div>
+                        <h4><a href="#" class="stretched-link">Messages</a></h4>
+                        <p>Check and respond to client messages.</p>
+                    </div>
+                </div>
+                <!-- Additional Featured Items can be added -->
             </div>
         </div>
+    </section><!-- /Hero Section -->
 
-    </div>
-
-</section><!-- /About Section -->
-
-<!-- Services Section -->
-<section id="services" class="section services">
-
-    <div class="container">
-
-        <div class="row gy-4">
-
-            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
-                <div class="service-item position-relative">
-                    <div class="icon">
-                        <i class="bi bi-activity"></i>
-                    </div>
-                    <a href="#" class="stretched-link">
-                        <h3>Event Insights</h3>
-                    </a>
-                    <p>Gain insights into event trends and audience preferences.</p>
+    <section id="about" class="section about">
+        <div class="container" data-aos="fade-up" data-aos-delay="100">
+            <div class="row gy-4">
+                <div class="col-lg-6 order-1 order-lg-2">
+                    <img src="{% static 'assets/img/about.jpg' %}" class="img-fluid" alt="">
                 </div>
-            </div><!-- End Service Item -->
-
-            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
-                <div class="service-item position-relative">
-                    <div class="icon">
-                        <i class="bi bi-broadcast"></i>
-                    </div>
-                    <a href="#" class="stretched-link">
-                        <h3>Marketing Tools</h3>
-                    </a>
-                    <p>Utilize marketing tools to promote your gigs effectively.</p>
+                <div class="col-lg-6 order-2 order-lg-1 content">
+                    <h3>Your Journey as an Artist</h3>
+                    <p class="fst-italic">Explore opportunities and grow your career with Vox Events Hub.</p>
+                    <ul>
+                        <li><i class="bi bi-check2-all"></i> <span>Manage your bookings and calendar efficiently.</span></li>
+                        <li><i class="bi bi-check2-all"></i> <span>Connect with clients and collaborate seamlessly.</span></li>
+                        <li><i class="bi bi-check2-all"></i> <span>Stay updated with industry trends and tips.</span></li>
+                    </ul>
+                    <p>Join us on this journey of creativity and success.</p>
                 </div>
-            </div><!-- End Service Item -->
-
-            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
-                <div class="service-item position-relative">
-                    <div class="icon">
-                        <i class="bi bi-easel"></i>
-                    </div>
-                    <a href="#" class="stretched-link">
-                        <h3>Artist Community</h3>
-                    </a>
-                    <p>Connect with fellow artists and share experiences.</p>
-                </div>
-            </div><!-- End Service Item -->
-
-            <!-- Additional Service Items can be added -->
-
+            </div>
         </div>
+    </section><!-- /About Section -->
 
-    </div>
-
-</section><!-- /Services Section -->
-
-{% endblock %}
-
+    <section id="services" class="section services">
+        <div class="container">
+            <div class="row gy-4">
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                    <div class="service-item position-relative">
+                        <div class="icon"><i class="bi bi-activity"></i></div>
+                        <a href="#" class="stretched-link">
+                            <h3>Event Insights</h3>
+                        </a>
+                        <p>Gain insights into event trends and audience preferences.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                    <div class="service-item position-relative">
+                        <div class="icon"><i class="bi bi-broadcast"></i></div>
+                        <a href="#" class="stretched-link">
+                            <h3>Marketing Tools</h3>
+                        </a>
+                        <p>Utilize marketing tools to promote your gigs effectively.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                    <div class="service-item position-relative">
+                        <div class="icon"><i class="bi bi-easel"></i></div>
+                        <a href="#" class="stretched-link">
+                            <h3>Artist Community</h3>
+                        </a>
+                        <p>Connect with fellow artists and share experiences.</p>
+                    </div>
+                </div>
+                <!-- Additional Service Items can be added -->
+            </div>
+        </div>
+    </section><!-- /Services Section -->
 </main>
