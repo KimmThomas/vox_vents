@@ -1,10 +1,9 @@
 from django.contrib import admin
-from .models import Profile, GigRequest, Review, Song, Price,PortfolioPicture, PortfolioVideo, BookingRequest, Booking, Payment, ClientReview, AcceptedGig, CanceledGig
+from .models import Profile, Review, Song, Price,PortfolioPicture, PortfolioVideo, BookingRequest, Booking, Payment, ClientReview, AcceptedGig, CanceledGig
 
 
 admin.site.register(Profile)
 admin.site.register(AcceptedGig)
-admin.site.register(GigRequest)
 admin.site.register(CanceledGig)
 admin.site.register(Review)
 admin.site.register(Song)

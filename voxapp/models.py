@@ -18,25 +18,6 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.username
 
-
-class GigRequest(models.Model):
-    artist = models.ForeignKey(Profile, on_delete=models.CASCADE, blank=True, null=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
-    event_name = models.CharField(max_length=100, blank=True, null=True)
-    event_date = models.DateField()
-    event_time = models.TimeField()
-    event_location = models.CharField(max_length=255, blank=True, null=True)
-    event_description = models.TextField()
-    
-
-    def __str__(self):
-        return f"{self.event_name} on {self.event_date} by {self.user.username}"
-
-    class Meta:
-        verbose_name = "Gig Request"
-        verbose_name_plural = "Gig Requests"
-
-
 class AcceptedGig(models.Model):
     artist = models.ForeignKey(Profile, on_delete=models.CASCADE)
     event_name = models.CharField(max_length=255, blank=True, null=True)

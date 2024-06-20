@@ -14,7 +14,7 @@ from .artist_bookingForm import BookingRequest, BookingRequestForm
 from django.contrib.auth.views import PasswordResetConfirmView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from .models import Profile, Review, Song, Price, PortfolioPicture, PortfolioVideo, Booking, Payment, ClientReview, GigRequest, AcceptedGig, CanceledGig, Notification
+from .models import Profile, Review, Song, Price, PortfolioPicture, PortfolioVideo, Booking, Payment, ClientReview, AcceptedGig, CanceledGig, Notification
 from django.http import JsonResponse
 from django.contrib import messages
 from .models import Message
